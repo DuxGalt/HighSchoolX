@@ -18,8 +18,7 @@ public class NPC_Data : MonoBehaviour {
 	public List<Sprite> tempEffect = new List<Sprite> ();
 	public List<Sprite> permEffect = new List<Sprite> ();
 
-	public GameObject characterPrefab;
-
+	public GameObject bodypart;
 	public Game_Manager gm;
 
 	public List<NPC> NPCs = new List<NPC> ();
@@ -78,67 +77,13 @@ public class NPC_Data : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		//spawn npcs 
-		Vector3 SpawnPos = Vector3.zero;
-
-		for (int j = 0; j < NPCs.Count; j++) {
-
-			GameObject spawned;
-
-			spawned =	Instantiate (characterPrefab, SpawnPos, Quaternion.identity) as GameObject;
-			spawned.name = j.ToString();
-			NPCs [j].characterContainer = spawned;
-			SpawnPos = SpawnPos + new Vector3(-5,0,0);
-
-			GameObject body = Instantiate(new GameObject(),new Vector3(0,0,-10),Quaternion.identity) as GameObject;
-			SpriteRenderer bodysprite = body.AddComponent<SpriteRenderer> ();
-			bodysprite.sprite = NPCs [j].clothes;
-
-			body.transform.SetParent (spawned.transform);
-			body.transform.position = body.transform.parent.transform.position;
-
-			GameObject head = Instantiate(new GameObject(),new Vector3(0,0,-9),Quaternion.identity) as GameObject;
-			SpriteRenderer headsprite = head.AddComponent<SpriteRenderer> ();
-			headsprite.sprite = NPCs [j].head;
-
-			headsprite.sortingOrder = 1;
-
-			head.transform.SetParent (spawned.transform);
-			head.transform.position = head.transform.parent.transform.position;
-
-
-			GameObject hair = Instantiate(new GameObject(),new Vector3(0,0,-9),Quaternion.identity) as GameObject;
-			SpriteRenderer hairsprite = hair.AddComponent<SpriteRenderer> ();
-			hairsprite.sprite = NPCs [j].hair;
-
-			hairsprite.sortingOrder = 2;
-
-			hair.transform.SetParent (spawned.transform);
-			hair.transform.position = hair.transform.parent.transform.position;
-
-
-			GameObject mouth = Instantiate(new GameObject(),new Vector3(0,0,-9),Quaternion.identity) as GameObject;
-			SpriteRenderer mouthsprite = mouth.AddComponent<SpriteRenderer> ();
-			mouthsprite.sprite = NPCs [j].mouth;
-
-			mouthsprite.sortingOrder = 2;
-
-			mouth.transform.SetParent (spawned.transform);
-			mouth.transform.position = mouth.transform.parent.transform.position;
-
-
-		}
+	
 	
 	}
 
 	public void SpawnNPCs(int amount)
 	{
 
-//		int npcsAmount = Mathf.FloorToInt(amount);
-//		int npcClassRatio = npcsAmount / 3;
-//		int npcClassCounterM = npcClassRatio;
-//		int npcClassCounterE = npcClassRatio;
-//		int npcClassCounterS = npcClassRatio;
 
 		int fatTypeRatio = amount * 25 / 100;
 		int musTypeRatio = amount * 25 / 100;
@@ -213,6 +158,56 @@ public class NPC_Data : MonoBehaviour {
 		}//end npc loop
 	
 
+		//spawn npcs 
+		Vector3 SpawnPos = Vector3.zero;
+		for (int j = 0; j < NPCs.Count; j++) {
+			
+			GameObject spawned;
+			spawned =	Instantiate (bodypart, SpawnPos, Quaternion.identity) as GameObject;
+			spawned.name = j.ToString();
+			NPCs [j].characterContainer = spawned;
+			SpawnPos = SpawnPos + new Vector3(-5,0,0);
+
+			GameObject body = Instantiate(bodypart,new Vector3(0,0,-10),Quaternion.identity) as GameObject;
+			SpriteRenderer bodysprite = body.AddComponent<SpriteRenderer> ();
+			bodysprite.sprite = NPCs [j].clothes;
+			body.name ="Body";
+		
+
+			body.transform.SetParent (spawned.transform);
+			body.transform.position = body.transform.parent.transform.position;
+
+			GameObject head = Instantiate(bodypart,new Vector3(0,0,-9),Quaternion.identity) as GameObject;
+			SpriteRenderer headsprite = head.AddComponent<SpriteRenderer> ();
+
+			headsprite.sprite = NPCs [j].head;
+			headsprite.sortingOrder = 1;
+
+			head.transform.SetParent (spawned.transform);
+			head.transform.position = head.transform.parent.transform.position;
+			head.name = "Head";
+
+			GameObject hair = Instantiate(bodypart,new Vector3(0,0,-9),Quaternion.identity) as GameObject;
+			SpriteRenderer hairsprite = hair.AddComponent<SpriteRenderer> ();
+
+			hairsprite.sprite = NPCs [j].hair;
+			hairsprite.sortingOrder = 2;
+
+			hair.transform.SetParent (spawned.transform);
+			hair.transform.position = hair.transform.parent.transform.position;
+			hair.name = "Hair";
+
+			GameObject mouth = Instantiate(bodypart,new Vector3(0,0,-9),Quaternion.identity) as GameObject;
+			SpriteRenderer mouthsprite = mouth.AddComponent<SpriteRenderer> ();
+
+			mouthsprite.sprite = NPCs [j].mouth;
+			mouthsprite.sortingOrder = 2;
+
+			mouth.transform.SetParent (spawned.transform);
+			mouth.transform.position = mouth.transform.parent.transform.position;
+			mouth.name = "Mouth";
+
+		}
 
 	}//end spawn npcs
 
